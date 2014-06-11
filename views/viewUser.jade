@@ -1,0 +1,19 @@
+extends popup
+block title
+	h2= 'Profile'
+block content
+	div(class='admin-form')
+		p(class='message')
+		form(class='',method='POST',action='',enctype="multipart/form-data")
+			p='First Name : ' + user.fname
+			p= 'Last Name : ' + user.lname
+			p= 'Position : ' + user.position
+			p= 'Email : ' + user.email
+			p= 'Extension Number : ' + user.extension
+			p= 'Mobile Number : ' + user.cell
+			p= 'Order :' + user.order
+			p= 'Display Image'
+				div(class='file-upload')
+					img(class='preview',src='img/uploads/'+(user.display_image||'temp.png'))
+			div(class='alert__btn-row')
+				a(href='',class='alert__cancel') Cancel

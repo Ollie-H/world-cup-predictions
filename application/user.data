@@ -1,0 +1,85 @@
+db.departments.save([
+	{
+		'name' : 'Digital',
+		'linemanager_id' : ObjectId("537ca8890941c2faab393955")
+	},
+	{
+		'name' : 'Project Management',
+		'linemanager_id' : ObjectId("537ca8890941c2faab393955")
+	}
+]);
+
+db.users.save([
+	{
+	    "_id": "86",
+	    "fname": "Jack",
+	    "lname": "Straw",
+	    "email": "jack.straw@saddingtonbaynes.com",
+	    "password": "c847b85c36c92546eb5342b217d961f9",
+	    "department_id": "128",
+	    "department": "Production",
+	    "discipline_id": "90",
+	    "discipline": null,
+	    "position_id": "171",
+	    "position": "Junior Pipeline Developer",
+	    "manager_id": "10",
+	    "manager_name": "Florian Einfalt",
+	    "admin": "false",
+	    "employment_start": "0000-00-00 00:00:00",
+	    "employment_end": "0000-00-00 00:00:00",
+	    "holiday_entitlement": "25",
+	    "holiday_remaining": "25",
+	    "holidays": "[]",
+	    "extension": "",
+	    "cell": "",
+	    "order": "9"
+	},
+	{
+		'fname' : 'Duncan',
+		'lname': 'Hart',
+		'email' : 'duncan.hart@saddingtonbaynes.com',
+		'password' : '',
+		'position' : 'Developer',
+		'admin' : 'false',
+		'holidayRemaing' : 25,
+		'holidays' : [],
+		'order1': 1,
+		'order2': 1
+	},
+	{
+		'fname' : 'Oliver',
+		'lname': 'Husband',
+		'email' : 'ollie.husband@saddingtonbaynes.com',
+		'password' : '',
+		'position' : '',
+		'admin' : 'false',
+		'holidayRemaing' : 25,
+		'holidays' : [],
+		'order1': 1,
+		'order2': 1
+	},
+	{
+		'fname' : 'Chloe',
+		'lname': 'Barbieux',
+		'email' : 'chloe.barbieux@saddingtonbaynes.com',
+		'password' : '',
+		'admin' : 'true',
+		'position' : 'Designer',
+		'holidayRemaing' : 25,
+		'holidays' : [],
+		'order1': 1,
+		'order2': 1
+	},
+	{
+		'fname' : 'Kate',
+		'lname': 'Miller',
+		'email' : 'kate.miller@saddingtonbaynes.com',
+		'password' : '',
+		'admin' : 'false',
+		'position' : 'PM',
+		'holidayRemaing' : 25,
+		'holidays' : [],
+		'order1': 1,
+		'order2': 1
+	}
+]);

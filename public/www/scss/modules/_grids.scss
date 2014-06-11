@@ -1,0 +1,49 @@
+.container{
+  margin: 0 auto 50px auto;
+  width: 100%;
+  max-width: 1160px;
+  padding: 50px 0;
+}
+
+.container__inner{
+  padding: 10px;
+  position: relative;
+}
+  
+.grid__item{
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  float:left;
+  border-right: 10px solid #fff;
+  @for $item1 from 1 through 5{
+    @for $item from 1 through $item1{ 
+      &.grid__item--#{$item}-#{$item1}{
+        $margin : 0;
+        width: 100% / ($item1 / $item) - $margin;
+        @if $item == $item1{
+          margin-right:0;
+          border:0;
+          &:after{
+            content: "";
+            display: table;
+            clear: left;
+          }
+        } 
+      }
+    }
+  }
+  &.grid__item--last,
+  &.grid__item--full{
+     margin-right:0;
+     border:0;
+     &:after{
+       content: "";
+       display: table;
+       clear: left;
+     }
+  }
+  &.no-border{
+    border:0;
+  }
+ }

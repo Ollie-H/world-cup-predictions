@@ -1,0 +1,15 @@
+div(class='alert')
+	div(class='alert__inner alert-popup')
+		div(class='alert__heading')
+			h2 Confirm holiday bookings
+		div(class='alert__hols')
+			table
+				each hol in hols
+					tr
+						td= fs.formatDate(hol)
+						td
+							a(href='#',class='date__remove')
+								img(src='/img/remove.png')
+		div(class='alert__btn-row')
+			a(href='',class='alert__cancel') Cancel
+			a(href='',class='alert__submit') Save

@@ -1,0 +1,48 @@
+extends popup
+block title
+	h2= 'Update profile'
+block content
+	div(class='admin-form')
+		p(class='message')
+		form(class='edit-form',method='POST',action='/user/'+user._id+'/edit',enctype="multipart/form-data")
+			label(for='fname')
+				span First Name
+				input(type='text',placeholder='',name='fname',value=''+user.fname)
+			label(for='lname')
+				span Last Name
+				input(type='text',placeholder='',name='lname',value=''+user.lname)
+			- if(user.admin == 'true'){
+				label(for='position')
+					span Position
+					input(type='text',placeholder='',name='position',value=''+user.position)
+				label(for='email')
+					span Email
+					input(type='text',placeholder='',name='email',value=''+user.email)
+			- }
+			label(for='extension')
+				span Extension Number
+				input(type='text',placeholder='',name='extension',value=''+user.extension)
+			label(for='cell')
+				span Mobile Number
+				input(type='text',placeholder='',name='cell',value=''+user.cell)
+			- if(user.admin == 'true'){
+				label(for='department')
+					span Department
+					select(name='department')
+						each d in departments
+							option('value'=''+d._id)= ''+ d.name
+				label(for='order')
+					span Order
+					input(type='text',placeholder='',name='order',value=''+user.order)
+			- }
+			label(for='displayImage')
+				span Display Image
+				div(class='file-upload')
+					input(type="file", name="displayImage",class="displayImage")
+					img(class='preview',src='img/uploads/'+(user.display_image||'temp.png'))
+			label(for='password')
+				span New Password
+				input(type='password',placeholder='',name='password',value='')
+			div(class='alert__btn-row')
+				a(href='',class='alert__cancel') Cancel
+				input(type='submit',class='alert__submit--save',value='Save & Close')

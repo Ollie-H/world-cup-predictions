@@ -1,0 +1,20 @@
+extends popup
+block title
+	h2= 'Authorise Holidays'
+block content
+	div(class='auth-hols',data-url='/user/'+user._id+'/authoriseHols')
+		table
+			- if(user.holidays.length == 0){
+			p= '' + user.fname + " " + user.lname + " has no holidays booked at the moment."
+			- }
+			each hol in user.holidays
+				tr
+					td= fs.formatDate(hol)
+					td
+						select(name='status')
+							option(value='approved',selected=hol.status == 'approved')= 'Approve'
+							option(value='pending',selected=hol.status == 'pending')=  'Pending'
+							option(value='rejected',selected=hol.status == 'rejected')= 'Reject'
+		div(class='alert__btn-row')
+			a(href='',class='alert__cancel') Cancel
+			a(href='',class='alert__submit--auth-hols') Save

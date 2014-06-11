@@ -1,0 +1,99 @@
+extends layout
+block title
+    title Holiday Planner - Overview
+    base(href='/www')
+block header
+    header
+        img(class='logo',src='http://www.saddingtonbaynes.com/media/img/sadsLogo_black.png',alt='Saddington Baynes')
+        nav    
+            ul(class='top-navigation')
+                    li(class='active')
+                        a(href='/holidays',title='Holidays') Holidays
+                    li
+                        a(href='/policies',title='Policies') Policies
+                    li
+                        a(href='/meeting-room',title='Meeting Room') Meeting Room
+                    li
+                        a(href='/logout',title='Logout') Logout
+            div(class='user-loggedin')
+                div(class='user-avatar')
+                    img(src='img/uploads/'+(user.display_image||'temp.png'))
+                div(class='user-name')
+                    a(href='#', class='link')= '' + user.fname + " " + user.lname
+    p(class='message')
+
+block content
+    div(class='holiday-intro text-center')
+        h1 Holidays/Meeting Room 
+        p(class='') This is a summary of your time off at Saddington Baynes. When you make a request for time off, your HR manager with be notified. 
+    div(class='user-breakdown')
+        div(class='team-holiays dashboard-section')
+            h2 Upcoming team holidays
+            ul
+                each hol in hols
+                    li
+                        div(class='user-avatar')
+                            img(src='img/uploads/'+(hol[0].user.display_image||'temp.png'))
+                        div(class='user-hol')
+                            span(class='user-hold__heading')= hol[0].user.fname + " " + hol[0].user.lname
+                            p
+                                span(class='user-hol__days')= ((hol.length == 1 && (hol[0].am == 'false' || hol[0].pm == 'false')) ? 0.5 : hol.length) + " DAYS"
+                                span(class='spacer-arrow')= '>'
+                                span=  dates.months[new Date(hol[0].date).getMonth()]+ " " + new Date(hol[0].date).getDate() + " to " + dates.months[new Date(hol[hol.length-1].date).getMonth()] + " " + new Date(hol[hol.length-1].date).getDate()
+        div(class='dashboard-section')
+            //- h2 Meeting room schedule
+        div(class='dashboard-section')
+            h2 Holidays
+            div(class='bar-chart bar-chart--holidays', data-allowed='25', data-taken=''+user.holiday_remaining)
+                span
+    div(class='calendar')
+        div(class='date-select')
+            div(class='date-center')
+                select(name='month',class='month')
+                    -   for (var i = 0; i <= 11; ++i) {
+                        -   var selected = (i == dates.dates[0].getMonth()) ? 'selected' : false;
+                            option(value=i,selected=selected)= dates.months[i]
+                    -   }
+                select(name='year',class='year')
+                    -   for (var j = 2013; j <= 2024; ++j) {
+                        - var selected = (j == dates.dates[0].getFullYear()) ? 'selected' : false;
+                            option(value=j,selected=selected)= j
+                    -   }
+                a(href='#', class='navigation__prev') &lt;
+                span(class='date-concat')
+                a(href='#', class='navigation__next') &gt;
+                //- a(class='switch', href='#') Go
+                a(class='save', href='#') Submit
+        div(class='calendar-container',data-admin=''+user.admin)
+            div(class='calendar-month', data-date=""+dates.dates[0].getMonth()+"_"+dates.dates[0].getFullYear())
+                div(class='calendar-month__inner')
+                    table(cellspacing='0', cellpadding='2',class='span-'+dates['dates'].length)
+                        thead
+                            tr(class='date__int')
+                                th(rowspan='2')
+
+                                each day in dates.dates
+                                    th(class=fs.isWeekend(day))
+                                        span= day.getDate()
+                            tr(class='date__char')
+                                each day in dates.dates
+                                    th(class=fs.isWeekend(day))
+                                        span= dates.days[day.getDay()].substring(0,2)
+                        each group in users
+                            tbody(class='team', data-team=''+group[0].department_id)
+                                each user in group
+                                    tr(class=fs.userSelection(user._id),data-id=''+user._id)
+                                        td
+                                            div(class='user-avatar user-avatar--small')
+                                                img(src='img/uploads/'+(user.display_image||'temp.png'))
+                                            !{ fs.userLink(user) }
+                                        each day in dates.dates
+                                            td(class=fs.isWeekend(day))
+                                                span(class=fs.holidayStatus(user.holidays, day, 'am'))
+                                                span(class=fs.holidayStatus(user.holidays, day, 'pm'))
+
+block require
+    script.
+        require(['js/common'], function (common) {
+            require([ 'app/allUsers' ]);
+        });

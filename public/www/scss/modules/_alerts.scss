@@ -1,0 +1,81 @@
+.alert{
+	position: fixed;
+	display: inline-block;
+	@extend .fullscreen;
+	background: rgba(0, 0, 0, 0.6);
+	z-index: 10;
+		.alert__inner{
+			vertical-align: middle;
+			@extend .container;
+			width: 360px;
+			background: #fff;
+			padding: 30px;
+			border: 1px solid #ccc;
+			max-height: 80%;
+			overflow: scroll;
+		}
+		table{
+			width: 300px;
+			td{
+				width: 50px;
+				&:first-child{
+					width: 250px;
+				}
+			}
+		}
+
+		label{
+			input,
+			select{
+				margin-left:  0;
+			}
+		}
+
+		.date__remove{
+			display: block;
+			width: 10px;
+			margin: 0 auto;
+				img{ 
+					width: 100%;
+				}
+		}
+
+		.file-upload{
+			margin: 0 0 20px 0;
+			position: relative;
+				.displayImage{
+				}
+				img{
+					display: block;
+					margin: 10px 0 0 0;
+					max-width: 100%;
+					z-index: 1;
+				}
+		}
+
+		.alert__btn-row{
+			margin: 20px 0 0 0;
+			display: block; 
+			text-align: right;
+			float: right;
+				.alert__submit--save,
+				.alert__submit,
+				.alert__cancel,
+				.alert__submit--auth-hols{ 
+					width: auto;
+					padding: 7.5px 10px;
+					background: #333131; 
+					color: #fff;
+					float: none;
+					clear: none;
+					display: inline;
+					margin-bottom:0;
+				}
+				.alert__submit,
+				.alert__submit--save,
+				.alert__submit--auth-hols{
+					background: #18BED5;
+					margin-left: 3px;
+				}
+		}
+}

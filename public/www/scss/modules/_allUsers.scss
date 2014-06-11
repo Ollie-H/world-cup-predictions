@@ -1,0 +1,239 @@
+/* User breakdown */
+
+.user-breakdown{
+	float:left;
+	width:100%;
+	margin: 0 0 100px 0;
+}
+
+.calendar{
+	float: left;
+	width: 100%;
+}
+
+.holiday-intro{
+	width: 50%;
+	margin: 100px auto;
+}
+
+.chart-container{
+
+	float: right;
+	padding: 40px 0;
+	width: auto;
+	overflow: hidden;
+
+	.chart {
+	  margin-left: 20px;
+	  width: 200px;
+	  height: 200px;
+	  position: relative;
+	  display: inline-block; 
+	}
+
+	.doughnutTip{
+	  display:none;
+	}
+
+	.doughnutSummary{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		text-align: center;
+		cursor: default;
+	} 
+
+	.doughnutSummaryNumber{
+		@extend .h1;
+	}
+
+}
+
+.bar-chart{
+	width: 100%;
+	height: 10px;
+	display: block;
+	margin: 20px 0;
+		span{
+			@include transition(width 600ms ease-in-out);
+			display: block;
+			height: 100%;
+			width: 0%;
+		}
+		&.bar-chart--holidays{
+			background: #C3EEF1;
+				span{
+					background: #67C8D4;
+				}
+		}
+}
+
+.date-select{
+	width: 100%;
+	background: #F2F3F3;
+	padding: 10px 0;
+	.switch,
+	.save{
+		@include transition(opacity 600ms linear);
+		opacity:0;
+			&.show{
+				opacity:1;
+			}
+	}
+	.save{ 
+		float: right;
+	}
+	.date-center{
+		text-align: center;
+	}
+	select{
+		display: none;
+	}
+	a, span{
+		font-size: 1.6rem;
+	}
+	a{
+		text-decoration: none;
+		color: inherit;
+	}
+	span{
+		text-transform: uppercase;
+		margin: 0 50px;
+	}
+}
+
+.selection {
+	position: absolute;
+	border: 1px solid #89B;
+	background: #BCE;
+	background-color: #BEC;
+	border-color: #8B9;
+}
+
+.calendar-container{
+	position: relative;
+	overflow: hidden;
+		.calendar-month{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: none;
+			-webkit-backface-visibility: hidden;
+			-moz-backface-visibility: hidden;
+			backface-visibility: hidden;
+			-webkit-transform: translate3d(0, 0, 0);
+			-moz-transform: translate3d(0, 0, 0);
+			transform: translate3d(0, 0, 0);
+			-webkit-transform-style: preserve-3d;
+			-moz-transform-style: preserve-3d;
+			transform-style: preserve-3d;
+
+				&.inview{
+					display: block;
+					z-index: 1;
+				}
+
+				&.ontop{
+					z-index: 99999999999;
+				}
+
+				.calendar-month__inner{ 
+					overflow: auto;
+					margin-bottom: 50px;
+				}
+		}
+}
+
+.dashboard-section{
+	float: left;
+	width: 30%;
+	margin-right: 3%;
+
+		h2{
+
+		}
+
+		ul{
+			max-height: 320px;
+			overflow: scroll;
+		}
+}
+
+.team-holiays{
+	
+	li{
+		display: table;
+		width: 100%;
+	}
+	.user-avatar,
+	.user-hol{
+	}
+	.user-avatar{
+		margin-bottom: 15px;
+		margin-right: 10px;
+	}
+	.user-hol{
+
+	}
+	.user-hold__heading{
+		@extend .h5;
+		@extend .uppercase;
+		margin-top: 0;
+		display: block;
+	}
+	.user-hol__days{
+		color: $cyan;
+		@extend .h4;
+	}
+}
+
+.month-moveToLeft {
+	-webkit-animation: moveToLeft .6s linear both;
+	-moz-animation: moveToLeft .6s linear both;
+	animation: moveToLeft .6s linear both;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-iteration-count: 1;
+	-moz-animation-fill-mode: forwards;
+	-moz-animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+}
+
+.month-moveFromLeft {
+	-webkit-animation: moveFromLeft .6s linear both;
+	-moz-animation: moveFromLeft .6s linear both;
+	animation: moveFromLeft .6s linear both;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-iteration-count: 1;
+	-moz-animation-fill-mode: forwards;
+	-moz-animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+}
+
+.month-moveToRight {
+	-webkit-animation: moveToRight .6s linear both;
+	-moz-animation: moveToRight .6s linear both;
+	animation: moveToRight .6s linear both;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-iteration-count: 1;
+	-moz-animation-fill-mode: forwards;
+	-moz-animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+}
+
+.month-moveFromRight {
+	-webkit-animation: moveFromRight .6s linear both;
+	-moz-animation: moveFromRight .6s linear both;
+	animation: moveFromRight .6s linear both;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-iteration-count: 1;
+	-moz-animation-fill-mode: forwards;
+	-moz-animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+	animation-iteration-count: 1;
+}
+

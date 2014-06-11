@@ -1,0 +1,15 @@
+include mixins
+doctype html
+html
+	head
+		block title
+		link(rel='stylesheet', href='/css/style.css')
+	body
+		div(class='container')
+			div(class='container__inner')
+				block header
+				block content
+				
+	script(src='/js/vendor/socket.io/socket.io.js')
+	script(src='/js/vendor/require.js')
+	block require

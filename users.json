@@ -1,0 +1,646 @@
+{
+    "timekeeper": {
+        "department_ids": [
+            {
+                "_id": "125",
+                "name": "Executive Team",
+                "linemanager": "125"
+            },
+            {
+                "_id": "139",
+                "name": "Project Management",
+                "linemanager": "139"
+            },
+            {
+                "_id": "128",
+                "name": "Production",
+                "linemanager": "128"
+            },
+            {
+                "_id": "145",
+                "name": "Marketing",
+                "linemanager": "145"
+            },
+            {
+                "_id": "146",
+                "name": "Administration",
+                "linemanager": "146"
+            },
+            {
+                "_id": "147",
+                "name": "New & Existing Business",
+                "linemanager": "147"
+            },
+            {
+                "_id": "153",
+                "name": "Operations",
+                "linemanager": "153"
+            }
+        ],
+        "disiplines": [
+            {
+                "_id": "132",
+                "name": "N/A",
+                "linemanager": "132"
+            },
+            {
+                "_id": "133",
+                "name": "1",
+                "linemanager": "133"
+            },
+            {
+                "_id": "134",
+                "name": "2",
+                "linemanager": "134"
+            },
+            {
+                "_id": "135",
+                "name": "3",
+                "linemanager": "135"
+            },
+            {
+                "_id": "136",
+                "name": "4",
+                "linemanager": "136"
+            },
+            {
+                "_id": "137",
+                "name": "5",
+                "linemanager": "137"
+            },
+            {
+                "_id": "140",
+                "name": "6",
+                "linemanager": "140"
+            },
+            {
+                "_id": "141",
+                "name": "7",
+                "linemanager": "141"
+            },
+            {
+                "_id": "142",
+                "name": "8",
+                "linemanager": "142"
+            },
+            {
+                "_id": "143",
+                "name": "9",
+                "linemanager": "143"
+            },
+            {
+                "_id": "144",
+                "name": "10",
+                "linemanager": "144"
+            }
+        ],
+        "users": [
+            {
+                "_id": "60",
+                "fname": "Andy ",
+                "lname": "Walsh",
+                "email": "andy.walsh@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "112",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "3",
+                "fname": "Chloe",
+                "lname": "Digby-Jones",
+                "email": "chloe@saddingtonbaynes.com",
+                "department_id": "139",
+                "position": "127",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "22",
+                "fname": "Chris",
+                "lname": "Christodoulou",
+                "email": "chris@saddingtonbaynes.com",
+                "department_id": "125",
+                "position": "104",
+                "admin": true,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "63",
+                "fname": "Colin",
+                "lname": "Howieson",
+                "email": "colin.howieson@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "108",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "40",
+                "fname": "Dan",
+                "lname": "Flavell",
+                "email": "daniel.flavell@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "165",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "96",
+                "fname": "David",
+                "lname": "Cox",
+                "email": "david.cox@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "108",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "80",
+                "fname": "David",
+                "lname": "Webster",
+                "email": "dave.webster@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "166",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "70",
+                "fname": "Dean",
+                "lname": "Smith",
+                "email": "dean.smith@saddingtonbaynes.com",
+                "department_id": "153",
+                "position": "162",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "49",
+                "fname": "Diego",
+                "lname": "Angarita",
+                "email": "diego.angarita@saddingtonbaynes.com ",
+                "department_id": "128",
+                "position": "107",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "1",
+                "fname": "Duncan",
+                "lname": "Hart",
+                "email": "duncan.hart@saddingtonbaynes.com",
+                "department_id": "125",
+                "position": "119",
+                "admin": true,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "91",
+                "fname": "Elena",
+                "lname": "Agafonovaite",
+                "email": "elena.agafonovaite@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "106",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "28",
+                "fname": "Eliott",
+                "lname": "Johnson",
+                "email": "eliott.johnson@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "108",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "90",
+                "fname": "Ellie",
+                "lname": "Lucas",
+                "email": "ellie.lucas@saddingtonbaynes.com",
+                "department_id": "153",
+                "position": "172",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "10",
+                "fname": "Florian",
+                "lname": "Einfalt",
+                "email": "florian.einfalt@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "109",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "47",
+                "fname": "Gary",
+                "lname": "Riches",
+                "email": "gary.riches@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "157",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "15",
+                "fname": "Glenn",
+                "lname": "Clifford",
+                "email": "glenn.clifford@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "107",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "77",
+                "fname": "Howard",
+                "lname": "Rose",
+                "email": "howard.rose@saddingtonbaynes.com",
+                "department_id": "153",
+                "position": "163",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "51",
+                "fname": "Ishan",
+                "lname": "Madan",
+                "email": "ishan.madan@saddingtonbaynes.com",
+                "department_id": "153",
+                "position": "161",
+                "admin": true,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "86",
+                "fname": "Jack",
+                "lname": "Straw",
+                "email": "jack.straw@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "171",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "93",
+                "fname": "Jack",
+                "lname": "Boyce",
+                "email": "jack.boyce@saddingtonbaynes.com",
+                "department_id": "145",
+                "position": "114",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "11",
+                "fname": "James",
+                "lname": "Digby-Jones",
+                "email": "james.dj@saddingtonbaynes.com",
+                "department_id": "125",
+                "position": "138",
+                "admin": true,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "52",
+                "fname": "Jasmin",
+                "lname": "Cummings",
+                "email": "jasmin.cummings@saddingtonbaynes.com",
+                "department_id": "125",
+                "position": "150",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "21",
+                "fname": "Jennie",
+                "lname": "Mackay",
+                "email": "jennie.mackay@saddingtonbaynes.com",
+                "department_id": "125",
+                "position": "122",
+                "admin": true,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "75",
+                "fname": "Jigisha",
+                "lname": "Bouverat",
+                "email": "jigisha.bouverat@saddingtonbaynes.com",
+                "department_id": "125",
+                "position": "154",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "98",
+                "fname": "Julie",
+                "lname": "Nixon",
+                "email": "julie.nixon@saddingtonbaynes.com",
+                "department_id": "139",
+                "position": "127",
+                "admin": false,
+                "holidayRemaing": "20",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "92",
+                "fname": "Kate",
+                "lname": "Miller",
+                "email": "kate.miller@saddingtonbaynes.com",
+                "department_id": "139",
+                "position": "174",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "95",
+                "fname": "Kate",
+                "lname": "Law",
+                "email": "kate.law@saddingtonbaynes.com",
+                "department_id": "125",
+                "position": "175",
+                "admin": true,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "20",
+                "fname": "Kathrin",
+                "lname": "Hawelka",
+                "email": "kathrin.hawelka@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "107",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "31",
+                "fname": "Kevin",
+                "lname": "Shepherd",
+                "email": "kevin.shepherd@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "111",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "97",
+                "fname": "Lee",
+                "lname": "Henshall",
+                "email": "lee.henshall@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "108",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "99",
+                "fname": "Lizzie",
+                "lname": "Hill",
+                "email": "lizzie.hill@saddingtonbaynes.com",
+                "department_id": "139",
+                "position": "127",
+                "admin": false,
+                "holidayRemaing": "20",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "94",
+                "fname": "Louise",
+                "lname": "Smith",
+                "email": "louise.smith@saddingtonbaynes.com",
+                "department_id": "139",
+                "position": "151",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "89",
+                "fname": "Michael",
+                "lname": "Chan",
+                "email": "michael.chan@saddingtonbaynes.com",
+                "department_id": "153",
+                "position": "173",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "33",
+                "fname": "Nic",
+                "lname": "Wickens",
+                "email": "nic.wickens@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "110",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "34",
+                "fname": "Nick",
+                "lname": "Dawe",
+                "email": "nick.dawe@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "107",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "100",
+                "fname": "Nicolas",
+                "lname": "Foote",
+                "email": "nicolas.foote@saddingtonbaynes.com",
+                "department_id": "139",
+                "position": "176",
+                "admin": false,
+                "holidayRemaing": "20",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "76",
+                "fname": "Oliver",
+                "lname": "Husband",
+                "email": "oliver.husband@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "158",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "46",
+                "fname": "Poppy",
+                "lname": "Boden",
+                "email": "poppy.boden@saddingtonbaynes.com",
+                "department_id": "153",
+                "position": "155",
+                "admin": true,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "82",
+                "fname": "Rosie",
+                "lname": "Ollero",
+                "email": "rosie.ollero@saddingtonbaynes.com",
+                "department_id": "139",
+                "position": "112",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "81",
+                "fname": "Sanna",
+                "lname": "Pearson",
+                "email": "sanna.pearson@saddingtonbaynes.com",
+                "department_id": "145",
+                "position": "169",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "6",
+                "fname": "Sean",
+                "lname": "Dunderdale",
+                "email": "sean.dunderdale@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "109",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            },
+            {
+                "_id": "35",
+                "fname": "Tobin",
+                "lname": "Brett",
+                "email": "tobin.brett@saddingtonbaynes.com",
+                "department_id": "128",
+                "position": "113",
+                "admin": false,
+                "holidayRemaing": "25",
+                "manager": "XX",
+                "order1": "1",
+                "order2": "2"
+            }
+        ]
+    }
+}

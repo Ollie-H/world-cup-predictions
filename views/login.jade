@@ -1,0 +1,19 @@
+extends layout
+block title
+	title Holiday Planner - Login
+
+block content
+	div(class='login')
+		div(class='login__inner')
+			- if(error) {
+				p(class='error')= 'Username/password incorrect'
+			- }
+			form(method='POST', class='login__form', action='/login')
+				input(type='text',value='',placeholder='Email Address',name='email')
+				input(type='password',value='',placeholder='Password',name='password')
+				input(type='submit',value='Login', class='login')
+block require
+	script.
+		require(['js/common'], function (common) {
+			require([ 'app/login' ]);
+		});
