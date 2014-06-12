@@ -51,6 +51,7 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 			return uid;
 		}
 	}));
+	app.use(express.static(__dirname + '/www-release'));
 
 	process.on('uncaughtException', function(err) {
 	  console.log(err.stack);
@@ -507,8 +508,6 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 	    });
 	    return def.promise();
 	}
-
-	app.use(express.static(__dirname + '/www-release'));
 
 	server.listen(process.env.PORT || 4321);
 
