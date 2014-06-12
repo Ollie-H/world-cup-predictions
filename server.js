@@ -1,6 +1,3 @@
-//	Customization
-var appPort = 4321;
-
 // Librairies
 var express = require('express'),
 	socket = socket,
@@ -33,8 +30,6 @@ var express = require('express'),
 MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app26261733", function(err, mongodb) {
 
 	if(err) { console.log("error"); return false; }
-
-	console.log("Connected");
 
 	db = mongodb;
 
@@ -517,7 +512,7 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 	    return def.promise();
 	}
 
-	server.listen(appPort);
+	server.listen(process.env.PORT || 4321);
 
 });
 
