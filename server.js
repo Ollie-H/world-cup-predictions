@@ -51,7 +51,7 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 			return uid;
 		}
 	}));
-	app.use(express.static(__dirname + '/app/www-release'));
+	app.use(express.static('http://sb-timekeeper.herokuapp.com/' + __dirname + '/app/www-release'));
 
 	process.on('uncaughtException', function(err) {
 	  console.log(err.stack);
