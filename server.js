@@ -68,8 +68,6 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 	// Render and send the main page
 	app.get('/', q.authenticate, function(req, res){
 
-		console.log()
-
 		var collection = db.collection('users');
 
 		renderUserTable(req, res, collection);
