@@ -23,8 +23,7 @@ var express = require('express'),
 	moment = require('moment'),
 	ldap = require('ldapjs'),
 	uid = null,
-	nodemailer = require("nodemailer"),
-	process.env.PWD = process.cwd();
+	nodemailer = require("nodemailer");
 
 // Views Options
 app.set('views', __dirname + '/views');
