@@ -1,0 +1,1 @@
+exports.browser=!!global.window,exports.node=!exports.browser;

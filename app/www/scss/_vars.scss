@@ -1,0 +1,38 @@
+$text-color: #333;
+$quiet-color: #ccc;
+$loud-color: #000;
+$heading-color: #111;
+
+$link-font-family: MetaWeb-Medium, sans-serif;
+$link-color: #2D2D2D;
+$link-hover-color: #52C3D0;
+$link-visited-color: #2D2D2D;
+
+$base-font-family: MetaWeb-Normal, sans-serif;
+$base-font-size: 1.3rem;
+$base-font-weight: 300;
+
+$heading-font-family: 'Roboto Condensed', sans-serif;
+$heading-font-weight: 700;
+
+$cyan: #50CBD7;
+
+.uppercase{
+	text-transform: uppercase;
+}
+
+.fullscreen{
+	left: 0;
+	right:0;
+	top:0;
+	bottom:0;
+}
+
+@mixin flexible-width ($context, $target) {
+  width: (($target / $context) * 100%);
+}
+
+@mixin rem($attr, $x){
+	#{$attr}: #{$x*10}px;
+	#{$attr}: #{$x}rem;
+} 

@@ -46,7 +46,7 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 	app.use(bodyParser());
 	app.set("view options", { layout: false });
 	app.use(multer({
-		dest: ['./public/www-release/img/uploads/', './public/www/img/uploads/'],
+		dest: ['./app/www-release/img/uploads/', './app/www/img/uploads/'],
 		rename: function (fieldname, filename) {
 			return uid;
 		}
@@ -508,7 +508,7 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 	    return def.promise();
 	}
 
-	app.use(express.static(__dirname + '/public/www-release'));
+	app.use(express.static(__dirname + '/www-release'));
 
 	server.listen(process.env.PORT || 4321);
 

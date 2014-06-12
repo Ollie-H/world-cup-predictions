@@ -1,0 +1,62 @@
+header{
+  float:left;
+  width:100%;
+  margin: 0 0 20px 0;
+    .logo{
+      float:left;
+      width: auto;
+    }
+    nav{
+      display: inline-block;
+      float: right;
+      width: auto;
+    }
+    .top-navigation{
+      display: inline-block;
+      list-style: none;
+      vertical-align: top;
+          li{
+            padding: 10px 0 0 0;
+            display: inline-block;
+            margin-left: 25px;
+            &.active{ 
+              border-bottom: 1px solid #ACE2E7;
+                a{
+                  color: $link-hover-color;
+                }
+            }
+              a{
+                @extend .link;
+                font-size: 13px;
+                font-size: 1.3rem;
+                padding: 0 0 2px 0;
+                text-decoration: none;
+              }
+          }
+    }
+    .user-loggedin{
+      display: inline-block;
+      margin-left: 45px;
+      .user-name{
+        float:left;
+        padding: 12px 0 0 5px;
+      }
+    }
+}
+
+.user-avatar{
+    float:left;
+    width: 40px;
+    height: 40px;
+    &.user-avatar--small{
+      margin: 2.5px 10px 2.5px 2.5px;
+      width: 25px;
+      height: 25px;
+    }
+    @include border-radius(50%);
+    overflow: hidden;
+      img{
+        width: 100%;
+        height: auto;
+      }
+  }

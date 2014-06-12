@@ -1,0 +1,1 @@
+define(["jquery","underscore"],function(e,t){var n,r=function(){n=this};return r.prototype={init:function(){},formValidate:function(e,t){t(e)},navigate:function(t,n){if(e(".message").length>0){var r=e("<span></span>").text(t.message);e(".message").html(r).addClass("message--"+t.type)}t.type!="error"&&window.setTimeout(function(){window.location.href=n},400)}},r});

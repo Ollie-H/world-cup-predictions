@@ -1,0 +1,8 @@
+.admin-form{
+	display: block;
+	padding: 0;
+		&:after{
+			display: block;
+			clear: left;
+		}
+}

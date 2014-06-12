@@ -1,0 +1,55 @@
+label,
+input[type='submit']{
+	display: block;
+	float: left;
+	clear: left;
+		span{
+			display: inline-block;
+			width: 100px;
+		}
+}
+
+input[type='text'],
+input[type='password'],
+select{
+	display: inline-block;
+	outline: 0;
+	border: 1px solid $quiet-color;
+	width: 200px;
+	padding: 4px;
+	margin: 0 0 20px 10px;
+	border-radius: 0px;
+	-webkit-appearance: initial;
+}
+
+input[type='submit']{
+	padding: 7.5px 15px;
+	background: $quiet-color;
+	border:0;
+	outline: 0;
+	-webkit-appearance: inherit;
+}
+
+select{
+	background: url('http://www.muchmusic.com/mmconnect/frontendimages/down_arrow_small.gif') right center no-repeat;
+}
+
+.message{
+	position: relative;
+	width: auto;
+	float: left;
+	display: block;
+	margin: 0 0 20px 0;
+	background: red;
+	overflow: hidden;
+	max-height: 0;
+	background: #fff;
+	@include transition(all 0.1s linear);
+		span{ 
+			padding: 10px;
+		}
+		&.message--success{
+			max-height: 20px;
+			background: #00ff00;
+		}
+}
