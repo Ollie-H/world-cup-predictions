@@ -31,7 +31,7 @@ app.set('view engine', 'jade');
 app.use(cookieParser());
 app.use(bodyParser());
 app.set("view options", { layout: false });
-app.use(express.static(path.join(__dirname, 'public/www-release')));
+app.use(express.static('/public/www-release'));
 app.use(multer({
 	dest: ['./public/www-release/img/uploads/', './public/www/img/uploads/'],
 	rename: function (fieldname, filename) {
