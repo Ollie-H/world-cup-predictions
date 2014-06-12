@@ -32,7 +32,9 @@ app.use(cookieParser());
 app.use(bodyParser());
 app.set("view options", { layout: false });
 
-app.use(express.static(process.cwd() + '/public/www-release'));
+console.log(process.cwd());
+
+app.use('css', express.static(process.cwd() + '/public/www-release'));
 
 app.use(multer({
 	dest: ['./public/www-release/img/uploads/', './public/www/img/uploads/'],
