@@ -25,29 +25,30 @@ var express = require('express'),
 	uid = null,
 	nodemailer = require("nodemailer");
 
-
-// Views Options
-app.set('views', __dirname + '/views');
-app.use('/images', express.static(__dirname + 'public/www-release/images'));
-app.use('/css', express.static(__dirname + 'public/www-release/css'));
-app.use('/fonts', express.static(__dirname + 'public/www-release/fonts'));
-app.use('/js', express.static(__dirname + 'public/www-release/js'));
-app.set('view engine', 'jade');
-app.use(cookieParser());
-app.use(bodyParser());
-app.set("view options", { layout: false });
-app.use(multer({
-	dest: ['./public/www-release/img/uploads/', './public/www/img/uploads/'],
-	rename: function (fieldname, filename) {
-		return uid;
-	}
-}));
-
-
 MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app26261733", function(err, mongodb) {
 
 	if(err) { console.log(err); return false; }
 	db = mongodb;
+
+	console.log(express.static(__dirname));
+
+	// Views Options
+	app.set('views', __dirname + '/views');
+	app.use('/images', express.static(__dirname + 'public/www-release/images'));
+	app.use('/css', express.static(__dirname + 'public/www-release/css'));
+	app.use('/fonts', express.static(__dirname + 'public/www-release/fonts'));
+	app.use('/js', express.static(__dirname + 'public/www-release/js'));
+	app.set('view engine', 'jade');
+	app.use(cookieParser());
+	app.use(bodyParser());
+	app.set("view options", { layout: false });
+	app.use(multer({
+		dest: ['./public/www-release/img/uploads/', './public/www/img/uploads/'],
+		rename: function (fieldname, filename) {
+			return uid;
+		}
+	}));
+
 
 	var smtpTransport = nodemailer.createTransport("SMTP",{
 	    service: "Gmail",
