@@ -1,4 +1,5 @@
 //	Customization
+process.env.PWD = process.cwd();
 // Librairies
 var express = require('express'),
 	socket = socket,
@@ -31,10 +32,7 @@ app.set('view engine', 'jade');
 app.use(cookieParser());
 app.use(bodyParser());
 app.set("view options", { layout: false });
-
-console.log(process.cwd());
-
-app.use('css', express.static(process.cwd() + '/public/www-release'));
+app.use(express.static(process.env.PWD + '/public/www-release'));
 
 app.use(multer({
 	dest: ['./public/www-release/img/uploads/', './public/www/img/uploads/'],
