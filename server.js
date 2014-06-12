@@ -6,8 +6,6 @@ var express = require('express'),
 	http = require('http'),
 	server = http.createServer(app),
 	io = require('socket.io').listen(server),
-
-	io = require('socket.io').listen(server),
 	jade = require('jade'),
 	MongoClient = require('mongodb').MongoClient,
 	ObjectID=require('mongodb').ObjectID,
@@ -53,8 +51,6 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 			return uid;
 		}
 	}));
-
-	app.use(express.static('./public/www-release/'));
 
 	process.on('uncaughtException', function(err) {
 	  console.log(err.stack);
@@ -511,6 +507,8 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 	    });
 	    return def.promise();
 	}
+
+	app.use(express.static(__dirname + '/public/www-release'));
 
 	server.listen(process.env.PORT || 4321);
 
