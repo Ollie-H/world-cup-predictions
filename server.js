@@ -1,5 +1,4 @@
 //	Customization
-process.env.PWD = process.cwd();
 // Librairies
 var express = require('express'),
 	socket = socket,
@@ -26,21 +25,21 @@ var express = require('express'),
 	uid = null,
 	nodemailer = require("nodemailer");
 
+
 // Views Options
 app.set('views', __dirname + '/views');
+app.use(express.static(path.join(__dirname, 'public/www-release')));
 app.set('view engine', 'jade');
 app.use(cookieParser());
 app.use(bodyParser());
 app.set("view options", { layout: false });
-app.use(express.static(__dirname + '/public/www-release'));
-app.use(express.bodyParser());
 app.use(multer({
 	dest: ['./public/www-release/img/uploads/', './public/www/img/uploads/'],
 	rename: function (fieldname, filename) {
 		return uid;
 	}
 }));
-app.use(app.router);
+
 
 MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app26261733", function(err, mongodb) {
 
