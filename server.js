@@ -33,11 +33,7 @@ app.use(cookieParser());
 app.use(bodyParser());
 app.set("view options", { layout: false });
 
-// app.use(express.static(path.join(__dirname, )));
-app.use('/css',express.static(process.env.PWD+'/public/www-release/css'));
-app.use('/js',express.static(process.env.PWD+'/public/www-release/js'));
-app.use('/img',express.static(process.env.PWD+'/public/www-release/img'));
-app.use('/font',express.static(process.env.PWD+'/public/www-release/font'));
+app.use(express.static(process.cwd() + '/public/www-release'));
 
 app.use(multer({
 	dest: ['./public/www-release/img/uploads/', './public/www/img/uploads/'],
