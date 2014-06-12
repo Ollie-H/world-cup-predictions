@@ -25,23 +25,6 @@ var express = require('express'),
 	uid = null,
 	nodemailer = require("nodemailer");
 
-
-
-// Views Options
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-app.use(cookieParser());
-app.use(bodyParser());
-app.set("view options", { layout: false });
-app.use(multer({
-	dest: ['./public/www-release/img/uploads/', './public/www/img/uploads/'],
-	rename: function (fieldname, filename) {
-		return uid;
-	}
-}));
-
-app.use(express.static(path.resolve(__dirname, '../public/www-release')));
-
 MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app26261733", function(err, mongodb) {
 
 	if(err) { console.log(err); return false; }
@@ -74,6 +57,21 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 	    return def.promise();
 	}
 
+	// Views Options
+	app.set('views', __dirname + '/views');
+	app.set('view engine', 'jade');
+	app.use(cookieParser());
+	app.use(bodyParser());
+	app.set("view options", { layout: false });
+	app.use(multer({
+		dest: ['./public/www-release/img/uploads/', './public/www/img/uploads/'],
+		rename: function (fieldname, filename) {
+			return uid;
+		}
+	}));
+
+	app.use(express.static(path.resolve(__dirname, '../public/www-release')));
+	
 	// Render and send the main page
 	app.get('/updateusers', function(req, res){
 
