@@ -28,7 +28,10 @@ var express = require('express'),
 
 // Views Options
 app.set('views', __dirname + '/views');
-app.use(express.static(path.join(__dirname, 'public/www-release')));
+app.use('/images', express.static(__dirname + 'public/www-release/images'));
+app.use('/css', express.static(__dirname + 'public/www-release/css'));
+app.use('/fonts', express.static(__dirname + 'public/www-release/fonts'));
+app.use('/js', express.static(__dirname + 'public/www-release/js'));
 app.set('view engine', 'jade');
 app.use(cookieParser());
 app.use(bodyParser());
