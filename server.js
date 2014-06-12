@@ -1,6 +1,4 @@
 //	Customization
-var appPort = 4321;
-
 // Librairies
 var express = require('express'),
 	socket = socket,
@@ -512,7 +510,7 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 		return d;
 	}
 
-	server.listen(appPort);
+	server.listen(process.env.PORT || 4321);
 
 
 });
