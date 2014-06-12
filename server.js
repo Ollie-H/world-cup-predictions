@@ -23,7 +23,8 @@ var express = require('express'),
 	moment = require('moment'),
 	ldap = require('ldapjs'),
 	uid = null,
-	nodemailer = require("nodemailer");
+	nodemailer = require("nodemailer"),
+	process.env.PWD = process.cwd();
 
 // Views Options
 app.set('views', __dirname + '/views');
@@ -31,7 +32,8 @@ app.set('view engine', 'jade');
 app.use(cookieParser());
 app.use(bodyParser());
 app.set("view options", { layout: false });
-app.use(express.static(path.join(__dirname, '/public/www-release')));
+// app.use(express.static(path.join(__dirname, )));
+app.use('/',express.static(process.env.PWD+'/public/www-release'));
 app.use(multer({
 	dest: ['./public/www-release/img/uploads/', './public/www/img/uploads/'],
 	rename: function (fieldname, filename) {
