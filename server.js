@@ -34,12 +34,6 @@ app.use(bodyParser());
 app.set("view options", { layout: false });
 app.use(express.static(__dirname + '/public/www-release'));
 app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(express.logger());
-app.use(express.errorHandler({
-	dumpExceptions: true, 
-	showStack: true
-}));
 app.use(multer({
 	dest: ['./public/www-release/img/uploads/', './public/www/img/uploads/'],
 	rename: function (fieldname, filename) {
