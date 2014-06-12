@@ -30,8 +30,6 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 	if(err) { console.log(err); return false; }
 	db = mongodb;
 
-	console.log(express.static(__dirname));
-
 	// Views Options
 	app.set('views', __dirname + '/views');
 	app.use('/images', express.static(__dirname + 'public/www-release/images'));
@@ -120,6 +118,8 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 
 	// Render and send the main page
 	app.get('/', q.authenticate, function(req, res){
+
+		res.send(express.static(__dirname));
 
 		var collection = db.collection('users');
 
