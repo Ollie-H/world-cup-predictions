@@ -32,10 +32,10 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 
 	// Views Options
 	app.set('views', __dirname + '/views');
-	app.use('/images', express.static(__dirname + 'public/www-release/images'));
-	app.use('/css', express.static(__dirname + 'public/www-release/css'));
-	app.use('/fonts', express.static(__dirname + 'public/www-release/fonts'));
-	app.use('/js', express.static(__dirname + 'public/www-release/js'));
+	app.use('/images', express.static('/public/www-release/images'));
+	app.use('/css', express.static('public/www-release/css'));
+	app.use('/fonts', express.static('public/www-release/fonts'));
+	app.use('/js', express.static('public/www-release/js'));
 	app.set('view engine', 'jade');
 	app.use(cookieParser());
 	app.use(bodyParser());
@@ -118,8 +118,6 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 
 	// Render and send the main page
 	app.get('/', q.authenticate, function(req, res){
-
-		res.send(__dirname);
 
 		var collection = db.collection('users');
 
