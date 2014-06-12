@@ -40,7 +40,7 @@ app.use(multer({
 	}
 }));
 
-app.use(express.static(path.join('/public/www-release')));
+app.use(express.static(path.resolve(__dirname, '../public/www-release')));
 
 MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app26261733", function(err, mongodb) {
 
