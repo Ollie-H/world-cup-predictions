@@ -1,4 +1,6 @@
 //	Customization
+var appPort = 4321;
+
 // Librairies
 var express = require('express'),
 	socket = socket,
@@ -6,6 +8,8 @@ var express = require('express'),
 	path = require('path'),
 	http = require('http'),
 	server = http.createServer(app),
+	io = require('socket.io').listen(server),
+
 	io = require('socket.io').listen(server),
 	jade = require('jade'),
 	MongoClient = require('mongodb').MongoClient,
@@ -25,9 +29,13 @@ var express = require('express'),
 	uid = null,
 	nodemailer = require("nodemailer");
 
+
 MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app26261733", function(err, mongodb) {
 
-	if(err) { console.log(err); return false; }
+	if(err) { console.log("error"); return false; }
+
+	console.log("Connected");
+
 	db = mongodb;
 
 	var smtpTransport = nodemailer.createTransport("SMTP",{
@@ -37,25 +45,6 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 	        pass: "12Qwaesz!"
 	    }
 	});
-
-	process.on('uncaughtException', function(err) {
-	  console.log(err.stack);
-	});
-
-	function getArray(coll, search, options, sort) {
-
-		var def = Deferred();
-	    var collection = db.collection(coll);
-
-	    collection.find(search, options).sort(sort, function(err, cursor) {
-	        if (err) def.reject(err);
-	        cursor.toArray(function(err, arr) {
-	            if (err) def.reject(err);
-	            def.resolve(arr);
-	        });
-	    });
-	    return def.promise();
-	}
 
 	// Views Options
 	app.set('views', __dirname + '/views');
@@ -70,8 +59,23 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 		}
 	}));
 
-	app.use(express.static(path.resolve(__dirname, '../public/www-release')));
-	
+	app.use(express.static('./public/www-release/'));
+
+	process.on('uncaughtException', function(err) {
+	  console.log(err.stack);
+	});
+
+	// Render and send the main page
+	app.get('/', q.authenticate, function(req, res){
+
+		console.log()
+
+		var collection = db.collection('users');
+
+		renderUserTable(req, res, collection);
+
+	});
+
 	// Render and send the main page
 	app.get('/updateusers', function(req, res){
 
@@ -110,15 +114,6 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 		    }
 
 		});
-
-	});
-
-	// Render and send the main page
-	app.get('/', q.authenticate, function(req, res){
-
-		var collection = db.collection('users');
-
-		renderUserTable(req, res, collection);
 
 	});
 
@@ -509,8 +504,22 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 		return d;
 	}
 
-	server.listen(process.env.PORT || 4321);
+	function getArray(coll, search, options, sort) {
 
+		var def = Deferred();
+	    var collection = db.collection(coll);
+
+	    collection.find(search, options).sort(sort, function(err, cursor) {
+	        if (err) def.reject(err);
+	        cursor.toArray(function(err, arr) {
+	            if (err) def.reject(err);
+	            def.resolve(arr);
+	        });
+	    });
+	    return def.promise();
+	}
+
+	server.listen(appPort);
 
 });
 
