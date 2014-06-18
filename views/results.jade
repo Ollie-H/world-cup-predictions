@@ -1,0 +1,35 @@
+extends layout
+block title
+    title World Cup 2014 - Predictions
+block header
+    header
+        img(class='logo',src='http://www.saddingtonbaynes.com/media/img/sadsLogo_black.png',alt='Saddington Baynes')
+        nav    
+            ul(class='top-navigation')
+                    li
+                        a(href='/',title='League Table') Predictions
+                    li
+                        a(href='/league',title='League Table') League Table
+                    li(class='active')
+                        a(href='/results',title='Results') Results
+                    li
+                        a(href='/logout',title='Logout') Logout
+            div(class='user-loggedin')
+                div(class='user-avatar')
+                    img(src='img/uploads/'+(user.display_image||'temp.png'))
+                div(class='user-name')
+                    a(href='#', class='link')= '' + user.fname + " " + user.lname
+block content
+    table(cellspacing='0', cellpadding='2',border='0')
+        tr(class='date')
+            td(colspan='2')= 'Results'
+        each fixture in fixtures
+                tr
+                    td= fixture.team1_title + " " + fixture.score1
+                    td= fixture.team2_title + " " + fixture.score2
+
+block require
+    script.
+        require(['js/common'], function (common) {
+            require([ 'app/allUsers' ]);
+        });

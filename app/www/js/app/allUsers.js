@@ -19,58 +19,42 @@ function ($, _, drop, drag, chart, Global) {
 
 			self = allUsers;
 
-			$('.calendar-month').addClass('inview');
-
-			self.unbind = null;
-			self.flag = false;
-			self.resize();
-			self.animateBreakdown();
-			self.getDates();
 			self.bindEvents();
-			self.dragAndDropSelection();
 
 		},
 
 		bindEvents: function(){
 
-			$('.navigation__next').unbind("click").bind('click', self.nextMonth);
-			$('.navigation__prev').unbind("click").bind('click', self.prevMonth);
-			$('.save').unbind("click").bind('click', self.submitHolidays);
-			$('.date-select select').unbind("change").bind('change', self.showSwitchBtn);
-			$('.editUser').unbind("click").bind('click', self.popup);
-			$('.viewUser').unbind("click").bind('click', self.popup);
-			$('.authoriseHols').unbind("click").bind('click', self.popup);
-			$('.alert__submit--auth-hols').unbind("click").bind('click', self.saveAuth);
-			$(".displayImage").unbind("change").on("change", function(){
-			  var that = this;
-			  if (that.files && that.files[0]) {
-			      var reader = new FileReader();    
-			      $(this).data("file", that.files[0]);
-			      reader.onload = function (e) {
-			          $(that).parent().find(".preview").attr('src', e.target.result);
-			      }
-			      reader.readAsDataURL(this.files[0]);
-			  }
-			});
+			$('.fixtures').unbind("submit").on('submit', function(e) {
 
-			$('.edit-form').unbind("submit").on('submit', function(e) {
 				e.preventDefault();
-				$(this).ajaxSubmit({
-					forceSync : true,
-					success : function(){
-						$('.alert__cancel').trigger('click');
+	
+				var post = [];
+
+				$('tr.row').each(function(){
+
+					if($(this).find('.home-predict').val() != "" && $(this).find('.away-predict').val() != ""){
+
+						post.push({
+							'fixture_id' : $(this).data('fixture'),
+							'homescore' : $(this).find('.home-predict').val(),
+							'awayscore' : $(this).find('.away-predict').val()
+						});
 					}
+
+				});
+
+				$.ajax({
+				  url: "/",
+				  type: "POST",
+				  data: {
+				  	predictions : post
+				  },
+				  success: function(data, textStatus, jqXHR){ 
+				  	alert("Predictions saved");
+				  }
 				});
 			});
-
-			if($('.calendar-container').attr('data-admin')=='true'){
-				$('.inview tr').on('click', function(){
-					$('tr.me').unbind().off().removeClass('me');
-					$(this).addClass('me');
-					self.dragAndDropSelection();
-					self.bindEvents();
-				});
-			}
 
 		},
 

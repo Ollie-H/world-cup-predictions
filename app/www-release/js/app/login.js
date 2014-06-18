@@ -1,1 +1,1 @@
-define("app/login",["jquery","underscore"],function(e,t){var n,r={init:function(){n=r,n.bindEvents()},bindEvents:function(){e(".login__form").on("submit",n.formPost)},formPost:function(e){n.formValidate(this)&&alert("valid"),e.preventDefault()},formValidate:function(t){var n=!0;return e('input[name!=""]',t).each(function(t){e(this).val()!=""&&(fields.addClass("error"),n=!1)}),n}};e(r.init)});
+define("app/login",["jquery","underscore"],function(e,t){var n,r={init:function(){n=r}};e(r.init)});

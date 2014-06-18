@@ -1,16 +1,17 @@
 extends layout
 block title
 	title Holiday Planner - Login
-
 block content
 	div(class='login')
 		div(class='login__inner')
+			img(src='http://4.bp.blogspot.com/-K20K7IoyXxI/TZwhnvNvsQI/AAAAAAAAVeQ/BxObthK7FPI/s1600/fifa_2014_world_cup_logo.jpg')
 			- if(error) {
 				p(class='error')= 'Username/password incorrect'
 			- }
+			p= 'Predictions'
 			form(method='POST', class='login__form', action='/login')
 				input(type='text',value='',placeholder='Email Address',name='email')
-				input(type='password',value='',placeholder='Password',name='password')
+				//- input(type='password',value='',placeholder='Password',name='password')
 				input(type='submit',value='Login', class='login')
 block require
 	script.

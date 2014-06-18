@@ -1,0 +1,52 @@
+extends layout
+block title
+    title World Cup 2014 - Predictions
+block header
+    header
+        img(class='logo',src='http://www.saddingtonbaynes.com/media/img/sadsLogo_black.png',alt='Saddington Baynes')
+        nav    
+            ul(class='top-navigation')
+                    li(class='active')
+                        a(href='/',title='League Table') Predictions
+                    li
+                        a(href='/league',title='League Table') League Table
+                    li
+                        a(href='/results',title='Results') Results
+                    li
+                        a(href='/logout',title='Logout') Logout
+            div(class='user-loggedin')
+                div(class='user-avatar')
+                    img(src='img/uploads/'+(user.display_image||'temp.png'))
+                div(class='user-name')
+                    a(href='#', class='link')= '' + user.fname + " " + user.lname
+block content
+    form(method='post',action='/',class='fixtures')
+        table(cellspacing='0', cellpadding='2',border='0')
+            each val, key in passed
+                tr(class='date')
+                    td(colspan="4")= fs.formateDate(val[0].play_at)
+                each fixture in val
+                    tr(data-fixture=''+fixture._id)
+                        td= fixture.team1_title
+                        td= fixture.score1
+                        td= fixture.team2_title
+                        td= fixture.score2
+            each val, key in fixtures
+                tr(class='date')
+                    td(colspan="4")= fs.formateDate(val[0].play_at)
+                each fixture in val
+                    tr(data-fixture=''+fixture._id,class='row')
+                        td= fixture.team1_title
+                        td
+                            input(type='text',class='home-predict', value=''+fs.matchPredictions(fixture._id, 'home'))
+                        td= fixture.team2_title
+                        td
+                            input(type='text',class='away-predict',value=''+fs.matchPredictions(fixture._id, 'away'))
+                
+        input(type="submit",class='submit')= 'Submit'
+
+block require
+    script.
+        require(['js/common'], function (common) {
+            require([ 'app/allUsers' ]);
+        });

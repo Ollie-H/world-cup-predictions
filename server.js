@@ -5,7 +5,6 @@ var express = require('express'),
 	path = require('path'),
 	http = require('http'),
 	server = http.createServer(app),
-	io = require('socket.io').listen(server),
 	jade = require('jade'),
 	MongoClient = require('mongodb').MongoClient,
 	ObjectID=require('mongodb').ObjectID,
@@ -13,31 +12,17 @@ var express = require('express'),
 	db = null,
 	cookieParser = require('cookie-parser'),
 	bodyParser = require('body-parser'),
-	multer  = require('multer'),
 	Deferred = require('Deferred'),
-	md5 = require('MD5'),
-	q = require('./application/db'),
-	q = new q(_, Deferred),
 	request = require("request"),
 	moment = require('moment'),
-	ldap = require('ldapjs'),
-	uid = null,
-	nodemailer = require("nodemailer");
+	uid = null;
 
 
-MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app26261733", function(err, mongodb) {
+MongoClient.connect("mongodb://localhost:27017/test", function(err, mongodb) {
 
 	if(err) { console.log("error"); return false; }
 
 	db = mongodb;
-
-	var smtpTransport = nodemailer.createTransport("SMTP",{
-	    service: "Gmail",
-	    auth: {
-	        user: "olliehusbanddesign@gmail.com",
-	        pass: "12Qwaesz!"
-	    }
-	});
 
 	// Views Options
 	app.set('views', __dirname + '/views');
@@ -45,232 +30,125 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 	app.use(cookieParser());
 	app.use(bodyParser());
 	app.set("view options", { layout: false });
-	app.use(multer({
-		dest: ['./app/www-release/img/uploads/', './app/www/img/uploads/'],
-		rename: function (fieldname, filename) {
-			return uid;
-		}
-	}));
-	app.use(express.static('http://sb-timekeeper.herokuapp.com/' + __dirname + '/app/www-release'));
+	app.use(express.static(__dirname + '/app/www-release'));
 
 	process.on('uncaughtException', function(err) {
 	  console.log(err.stack);
 	});
 
 	// Render and send the main page
-	app.get('/', q.authenticate, function(req, res){
+	app.get('/', authenticate, function(req, res){
 
-		var collection = db.collection('users');
+		updatePoints(req);
+		updateFixtures();
 
-		renderUserTable(req, res, collection);
+		var dFixtures = getArray('fixtures', {}, {}, {});
+		var dPredictions = getArray('predictions', {'user_id' : req.cookies.user._id }, {}, {});
+		var lookups = Deferred.when(dFixtures, dPredictions);
 
-	});
+		lookups.done(function(fixtures, predictions) {
 
-	// Render and send the main page
-	app.get('/updateusers', function(req, res){
-
-		request({
-		    url: 'http://sbpd.saddingtonbaynes.com/users.php',
-		    json: true
-		}, function (error, response, body) {
-
-		    if (!error && response.statusCode === 200) {
-
-		        var userdata = body;
-
-				var collections = ['users', 'departments', 'positions'];
-				var dDef = getArray('positions', {}, {}, {});
-				var dDef = getArray('departments', {}, {}, {});
-				var dAll = getArray('users', {}, {}, {});
-				var lookups = Deferred.when(dDef, dAll);
-
-				lookups.done(function(positions, departments, allusers) {
-
-					var arg = arguments;
-
-					for (var x = 0; x < collections.length; x++) {
-
-						_.each(userdata['timekeeper'][collections[x]], function(entry, i){
-
-							if(  !_.findWhere(arg[x], { '_id' : entry._id }) ){
-								db.collection(collections[x]).insert(entry, function(err, records) {});
-							}
-
-						});
-
-					}
-
-				});
-		    }
-
-		});
-
-	});
-
-	app.get('/user/:id/view', q.authenticate, function(req, res){
-
-		uid = req.params.id;
-
-		var dDef = getArray('departments', {}, {}, {});
-		var dAll = getArray('users', {}, {}, {});
-		var dUser = getArray('users', { _id: req.params.id }, {'limit' : 1}, {});
-
-		var lookups = Deferred.when(dDef, dAll, dUser);
-
-		lookups.done(function(departments, allusers, user) {
-
-			res.render('viewUser.jade', {
-	        	departments : departments,
-	        	allusers : allusers,
-				user: user[0]
+			fixtures = _.groupBy(fixtures, function(fixture){
+				return moment(fixture.play_at, "YYYY/MM/DD").format("MMMM Do YYYY");
 			});
 
-	    });
-
-	});
-
-	app.get('/user/:id/edit', q.authenticate, function(req, res){
-
-		uid = req.params.id;
-
-		var dDef = getArray('departments', {}, {}, {});
-		var dAll = getArray('users', {}, {}, {});
-		var dUser = getArray('users', { _id: req.params.id }, {'limit' : 1}, {});
-
-		var lookups = Deferred.when(dDef, dAll, dUser);
-
-		lookups.done(function(departments, allusers, user) {
-
-			res.render('editUser.jade', {
-	        	departments : departments,
-	        	allusers : allusers,
-				user: user[0]
+			fixtures = _.sortBy(fixtures, function(fixture){
+				return moment(fixture[0].play_at, "YYYY/MM/DD").dayOfYear();
 			});
 
-	    });
+			var passed = [];
+			fixtures = _.reject(fixtures, function(fixture, key, list){
+				var now = moment().dayOfYear();
+				var then = moment(fixture[0].play_at, "YYYY/MM/DD").dayOfYear();
+				if(then < now){
+					passed.push(fixture);
+				}
+				return then < now;
+			});
 
-	});
-
-	app.post('/user/:id/edit', q.authenticate, function(req, res){
-
-		var collection = db.collection('users');
-
-		var set = {};
-
-		_.each(req.body, function(value, key, list){
-			set[key] = value;
-		});
-
-		if(req.files.displayImage){
-			set['display_image'] = req.files.displayImage[0].name;
-		}
-
-		collection.update({
-			_id: req.params.id
-		},{ $set: set },
-		function(err, count){
-			if(!err){
-				res.send({type : 'success', message : '' });
-			}
-		});
-
-	});
-
-	app.get('/user/:id/authoriseHols', q.authenticate, function(req, res){
-
-		var dUser = getArray('users', { _id: req.params.id }, {'limit' : 1}, {});
-
-		var lookups = Deferred.when(dUser);
-
-		lookups.done(function(user) {
-
-			res.render('authoriseHols.jade', {
-				user : user[0],
+			res.render('fixtures.jade', {
+				fixtures : fixtures,
+				predictions : predictions,
+				user: req.cookies.user,
+				passed: passed,
 				fs: {
-					formatDate: function(date){
-
-						var d = moment(date.date);
-						d = d.format('ddd, Do MMM YYYY');
-
-						if(date.am == 'false' && date.pm == 'true'){
-							d += ' PM';
+					matchPredictions: function(id, attr){
+						var fixture = _.findWhere(predictions, { fixture_id :  id.toString() });
+						if(fixture){
+							return fixture[attr+'score'];
 						}
-						else if(date.pm == 'false' && date.am == 'true'){
-							d += ' AM';
-						}
-
-						return d;
-
+						return '';
+					},
+					formateDate: function(date){
+						return moment(date, "YYYY/MM/DD").format("MMMM Do YYYY");
 					}
 				}
 			});
 
-	    });
+		});
+	});
+
+	app.get('/results', authenticate, function(req, res){
+
+		var dFixtures = getArray('fixtures', {}, {}, {});
+		var lookups = Deferred.when(dFixtures);
+
+		lookups.done(function(fixtures) {
+
+			fixtures = _.sortBy(fixtures, function(fixture){
+				return new Date(fixture.play_at);
+			});
+
+			fixtures = _.reject(fixtures, function(fixture){
+				var now = moment().dayOfYear();
+				var then = moment(fixture.play_at, "YYYY/MM/DD").dayOfYear();
+				return then >= now;
+			});
+
+			res.render('results.jade', {
+				fixtures : fixtures,
+				user: req.cookies.user
+			});
+
+		});
+
+
+	});
+
+	app.get('/league', authenticate, function(req, res){
+
+		var dAll = getArray('users', {}, {}, { points : -1, lname : 1 });
+		var lookups = Deferred.when(dAll);
+
+		lookups.done(function(users){
+
+			res.render('league.jade', {
+				user: req.cookies.user,
+				users: users
+			});
+
+		});
+
 
 	});
 
 
-	app.post('/user/:id/authoriseHols', q.authenticate, function(req, res){
+	app.post('/', function(req, res){
 
-		var collection = db.collection('users');
-		var dUser = getArray('users', { _id: req.params.id }, {'limit' : 1}, {});
+		var uid = req.cookies.user._id;
 
-		var lookups = Deferred.when(dUser);
+		_.each(req.body.predictions, function(prediction, i){
 
-		lookups.done(function(user) {
+			prediction.user_id = uid;
 
-			var holidays = user[0].holidays;
+			db.collection('predictions').insert(prediction, function(err, records) {
 
-			_.each(holidays, function(holiday, i){
-
-				holiday.status = req.body.auths[i];
-
-			});
-
-			collection.update({
-				_id: req.params.id
-			},{ $set: {
-				holidays : holidays
-			}},
-			function(err, count){
 				if(!err){
-					res.send({type : 'success', message : '' });
+					res.send('success');
 				}
 			});
 
 		});
-	});
-
-	app.post('/confirmHolidays', q.authenticate, function(req, res){
-
-		res.render('alertUserConfirm.jade', {
-			hols : req.body.dates,
-			fs: {
-				formatDate: function(date){
-
-					var d = moment(date.date);
-					d = d.format('ddd, Do MMM YYYY');
-
-					if(date.am == 'false' && date.pm == 'true'){
-						d += ' PM';
-					}
-					else if(date.pm == 'false' && date.am == 'true'){
-						d += ' AM';
-					}
-
-					return d;
-
-				}
-			}
-		});
-
-	});
-
-	app.get('/:month/:year', q.authenticate, function(req, res){
-
-		var collection = db.collection('users');
-
-		renderUserTable(req, res, collection, req.params);
 
 	});
 
@@ -278,71 +156,6 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 
 		res.render('login.jade');
 
-	});
-
-	app.get('/logout', function(req, res){
-
-		res.cookie('loggedin', null);
-		res.cookie('user', null);
-
-		res.render('login.jade');
-
-	});
-
-	app.post('/user/:id/saveHolidays', function(req, res){
-
-		var collection = db.collection('users');
-
-		collection.findOne({ _id: req.params.id }, function(err, user) {
-
-			var remaining = user.holiday_remaining - req.body.count;
-
-			if(remaining < 0){
-				res.send({type : 'error', message : 'Not enough holiday remaining to chose these dates'});
-				return false;
-			}
-
-			var dates = user.holidays;
-
-			for (var i = 0; i < req.body.dates.length; i++) {		
-				if(!_.findWhere(dates, { date: req.body.dates[i].date }) ){
-					dates.push(req.body.dates[i]);
-				}
-			};
-			
-			collection.update({_id: user._id},{$set: { holidays : dates, holiday_remaining : remaining  }}
-			, function(err, count){
-
-				res.send({type : 'success', message : '' });
-				
-				if(!err){
-
-					var html = "<p>Hi "+ user.manager_name + "\n</p>";
-					html += "<p>" + user.fname + " " + user.lname + " has the following holiday's awaiting your approval.<br /></p>"
-					html += "<table cellpadding='0' border='0'>";
-					_.each(req.body.dates, function(date,i){
-						html += "<tr><td>"+friendlyDate(date)+"</td></tr>";
-					});
-					html += "</table>"
-
-					// Send manager and user email?
-					var mailOptions = {
-					    from: "no.reply@saddingtonbaynes.com",
-					    to: "olliehusband@me.com",
-					    subject: user.fname + " " + user.lname + " has holidays awaiting approval.",
-					    html: html
-					}
-
-					composeEmail(mailOptions, function(){
-						console.log("message sent");
-					});
-
-				}
-
-			});
-
-		});
-		
 	});
 
 	app.post('/login', function(req, res){
@@ -373,113 +186,180 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 
 	});
 
-	var renderUserTable = function(req, res, collection, date){
+	app.get('/logout', function(req, res){
 
-		var dayArr = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-		var dates = (typeof(date)==='undefined') ? q.getCalendar() : q.getCalendar(date);
-		var dDef = getArray('departments', {}, {}, {});
-		var dAll = getArray('users', {}, {}, { order : 1, lname : 1 });
-		var dUser = getArray('users', {_id: req.cookies.user._id } , {}, {});
-		var lookups = Deferred.when(dDef, dAll, dUser);
+		res.cookie('loggedin', null);
+		res.cookie('user', null);
+		res.render('login.jade');
 
-		lookups.done(function(departments, allusers, user) {
+	});
 
-			allusers = _.groupBy(allusers, function(user){ return user.department_id; });
-			
-			var userGroup = allusers[user[0].department_id];
-			var upcomingHols = q.groupHolidays(userGroup);
 
-	        res.render('allUsers.jade', {
-	        	user: user[0],
-		        departments: departments,
-				users: allusers,
-				dates : dates,
-				team : userGroup,
-				hols: upcomingHols,
-				fs: {
-					holidayStatus: function(hols,day,halfDayType){
+	// Render and send the main page
+	// app.get('/updateusers', function(req, res){
 
-						var now = new Date(day);
+	// 	request({
+	// 	    url: 'http://sbpd.saddingtonbaynes.com/users.php',
+	// 	    json: true
+	// 	}, function (error, response, body) {
 
-						if(!hols || this.isWeekend(dayArr[now.getDay()]) != "")	return false;
+	// 	    if (!error && response.statusCode === 200) {
 
-						for (var i = 0; i < hols.length; i++) {
+	// 	        var userdata = body;
 
-							var hol = new Date(hols[i].date);
+	// 			var collections = ['users', 'departments', 'positions'];
+	// 			var dDef = getArray('positions', {}, {}, {});
+	// 			var dDef = getArray('departments', {}, {}, {});
+	// 			var dAll = getArray('users', {}, {}, {});
+	// 			var lookups = Deferred.when(dDef, dAll);
 
-			        		if(hols[i][halfDayType] == 'true'){
+	// 			lookups.done(function(positions, departments, allusers) {
 
-				        		if(now - hol === 0){
-					
-									if(hols[i].status == 'approved'){
-										return "hol-app";
-									}
-									else if(hols[i].status == 'rejected'){
-										return "hol-rej";
-									}
-									else{
-										return "hol-pend";
-									}
-								}
+	// 				var arg = arguments;
+
+	// 				for (var x = 0; x < collections.length; x++) {
+
+	// 					_.each(userdata['timekeeper'][collections[x]], function(entry, i){
+
+	// 						if(  !_.findWhere(arg[x], { '_id' : entry._id }) ){
+	// 							db.collection(collections[x]).insert(entry, function(err, records) {});
+	// 						}
+
+	// 					});
+
+	// 				}
+
+	// 			});
+	// 	    }
+
+	// 	});
+
+	// });
+
+	// app.get('/user/:id/edit', q.authenticate, function(req, res){
+
+	// 	uid = req.params.id;
+
+	// 	var dDef = getArray('departments', {}, {}, {});
+	// 	var dAll = getArray('users', {}, {}, {});
+	// 	var dUser = getArray('users', { _id: req.params.id }, {'limit' : 1}, {});
+
+	// 	var lookups = Deferred.when(dDef, dAll, dUser);
+
+	// 	lookups.done(function(departments, allusers, user) {
+
+	// 		res.render('editUser.jade', {
+	//         	departments : departments,
+	//         	allusers : allusers,
+	// 			user: user[0]
+	// 		});
+
+	//     });
+
+	// });
+
+	var updatePoints = function(req){
+
+		var dUsers = getArray('users', {}, {}, {});
+		var dFixtures = getArray('fixtures', {'score1' : { $ne: null }}, {}, {});
+
+		var lookups = Deferred.when(dUsers, dFixtures);
+
+		lookups.done(function(users, fixtures) {
+
+			_.each(users, function(user){
+
+				var points = 0;
+
+				var dPredictions = getArray('predictions', {'user_id' : req.cookies.user._id }, {}, {});
+				var lookups = Deferred.when(dPredictions);
+
+				lookups.done(function(predictions) {
+
+					_.each(fixtures, function(fixture){
+
+						var prediction = _.findWhere(predictions, { 'fixture_id' : fixture._id.toString(), 'user_id' : user._id.toString() });
+
+						if(prediction){
+
+							if(
+								prediction.homescore == fixture.score1 &&
+								prediction.awayscore == fixture.score2
+							){
+								points += 3;
 							}
+							else if(
+								(fixture.score1 > fixture.score2 && prediction.homescore > prediction.awayscore) ||
+								(fixture.score1 < fixture.score2 && prediction.homescore < prediction.awayscore) ||
+								(fixture.score1 == fixture.score2 && prediction.homescore == prediction.awayscore)
+							){
+								points += 1;
+							}
+
 						}
 
-			        },
-			        isWeekend: function(day){
+					});
 
-			        	var now = new Date(day);
-			        	var dayArr = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-			        	var day = dayArr[now.getDay()];
-			        	return (day == "Sun" || day == "Sat") ? "weekend" : "";
+					db.collection('users').update({'_id' : user._id }, { $set: { 'points' : points }}, function(err, records) {
+						
+					});
 
-			        },
-			        userLink: function(user){
 
-			        	var html = '';
+				});
 
-			        	if(req.cookies.user._id == user._id || req.cookies.user.admin == 'true'){
-			        		html += "<a href='/user/"+user._id+"/edit' class='editUser'> "+user.fname + " " + user.lname+" </a>";
-			        		html +=	"<a href='/user/"+user._id+"/edit' class='editUser user-icon'><img src='/img/edit-icon.png' /></a>";
-			        		if(req.cookies.user.admin == 'true'){
-			        			html +=	"<a href='/user/"+user._id+"/authoriseHols' class='authoriseHols user-icon'><img src='/img/clock-icon.png' /></a>";
-			        		}
-
-		        		}
-			        	else{
-			        		html += "<small>" + user.fname + ' ' + user.lname + "</small>";
-			        	}
-
-			        	html +=	"<a href='/user/"+user._id+"/view' class='viewUser user-icon'><img src='/img/info-icon.png' /></a>";
-
-			        	return html;
-
-			        },
-			        userSelection: function(id){
-
-			        	if(req.cookies.user._id == id){
-			        		return "me";
-			        	}
-
-			        },
-			        frameless: function(){
-			        	return req.originalUrl === "/";
-			        }
-			   	}
 			});
+
 		});
 
-	};
+	};	
 
-	var composeEmail = function(mailOptions, callback){
+	var updateFixtures = function(){
 
-		smtpTransport.sendMail(mailOptions, function(error, response){
-		    if(error){
-		        console.log(error);
-		    }else{
-		       	callback();
-		    }
-		});
-	};
+		for (var i = 0; i < 25; i++) {
+
+			request({
+
+				url: "http://footballdb.herokuapp.com/api/v1/event/world.2014/round/" + i,
+				json: true
+
+			},
+			function (error, response, body) {
+
+				if (!error && response.statusCode === 200) {
+
+					var userdata = body;
+
+					var dFixtures = getArray('fixtures', {}, {}, {});
+					var lookups = Deferred.when(dFixtures);
+
+					lookups.done(function(fixtures) {
+
+							_.each(userdata['games'], function(fixture, i){
+
+								db.collection('fixtures').update(
+								{
+									'team1_key' : fixture.team1_key,
+									'team2_key' : fixture.team2_key
+								},
+								{ 
+									$set: {
+										score1 : fixture.score1,
+										score2 : fixture.score2
+									}
+								}, function(err, records) {
+
+								});
+
+							});
+
+					});
+
+				}
+
+			});
+
+		};
+	}
 
 	var friendlyDate = function(date){
 
@@ -509,7 +389,18 @@ MongoClient.connect("mongodb://ollie_h:12qwaesz@kahana.mongohq.com:10033/app2626
 	    return def.promise();
 	}
 
-	server.listen(process.env.PORT || 4321);
+	function authenticate(req, res, next){
+
+		if(!req.cookies.loggedin){
+			res.redirect("/login");
+			return false;
+		}
+
+		next();
+	}
+
+
+	server.listen(process.env.PORT || 9999);
 
 });
 
